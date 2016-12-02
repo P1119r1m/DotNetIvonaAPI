@@ -59,7 +59,7 @@ namespace IvonaTest
             const string method = "POST";
             const string canonicalUri = "/CreateSpeech";
             const string canonicalQueryString = "";
-            const string contentType = "application/json";
+            const string contentType = "application/json;charset=UTF-8";
             
 
             const string host = serviceName + "." + regionName + ".ivonacloud.com";
@@ -150,11 +150,11 @@ namespace IvonaTest
             webRequest.Headers.Add("X-Amz-date", requestDate);
             webRequest.Headers.Add("Authorization", authorization);
             webRequest.Headers.Add("x-amz-content-sha256", hashedRequestPayload);
-            webRequest.ContentLength = requestPayload.Length;
+            webRequest.ContentLength = ToBytes(requestPayload).Length;
 
             using (Stream newStream = webRequest.GetRequestStream())
             {
-                newStream.Write(ToBytes(requestPayload), 0, requestPayload.Length);
+                newStream.Write(ToBytes(requestPayload), 0, ToBytes(requestPayload).Length);
                 newStream.Flush();
             }
 
